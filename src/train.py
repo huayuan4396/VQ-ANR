@@ -112,7 +112,8 @@ def train_anr(vol_dl, model, codebook, cfg, device):
 
         if best_loss > info["MSE Loss"][-1]:
             best_loss = info["MSE Loss"][-1]
-            torch.save(model.state_dict(), Path(cfg.model.model_path) / f"{name}_best_model.pth")
+            model_half = deepcopy(model).half()
+            torch.save(model_half.state_dict(), Path(cfg.model.model_path) / f"{name}_best_model.pth")
             
-        prefix = f"{cfg.model.vq.params.embed_dim:d}_{cfg.model.vq.params.n_embed:d}_vq"
+    prefix = f"{cfg.model.vq.params.embed_dim:d}_{cfg.model.vq.params.n_embed:d}_vq"
     torch.save(codebook.half().state_dict(), Path(cfg.model.model_path) / f"{prefix}_best_codebook.pth")
