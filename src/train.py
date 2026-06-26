@@ -1,9 +1,8 @@
 from pathlib import Path
 import time
-
 import torch
 import torch.nn.functional as F
-
+from copy import deepcopy
 from utils import count_parameters, save_loss_info
 
 
@@ -114,3 +113,6 @@ def train_anr(vol_dl, model, codebook, cfg, device):
         if best_loss > info["MSE Loss"][-1]:
             best_loss = info["MSE Loss"][-1]
             torch.save(model.state_dict(), Path(cfg.model.model_path) / f"{name}_best_model.pth")
+            
+        prefix = f"{cfg.model.vq.params.embed_dim:d}_{cfg.model.vq.params.n_embed:d}_vq"
+        torch.save(codebook.half().state_dict(), Path(cfg.model.model_path) / f"{prefix}_best_codebook.pth")
