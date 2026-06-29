@@ -36,4 +36,4 @@ data:
   res: [128,128,128]
   scale: [4,4,4]
   crop_size: [128,128,128]
-  path: '/root/autodl-tmp/Data/Nyx/'
+  path: '../params/nyx.csv'
